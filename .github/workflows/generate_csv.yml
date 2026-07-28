@@ -1,0 +1,31 @@
+name: Generate CSV and commit
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-commit:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@main
+
+      - name: Generate CSV
+        run: |
+          git clone https://github.com/ualberta-rcg/youtube_to_csv.git
+          pip install youtube_to_csv/.
+          youtube_to_csv config.yml > youtube.csv
+          
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add youtube.csv
+          git diff-index --quiet HEAD || git commit -m "chore: auto-update youtube.csv [skip ci]"
+          git push
