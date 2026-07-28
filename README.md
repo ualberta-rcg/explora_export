@@ -6,6 +6,7 @@ The ingredients:
 
 * The `config.yml` has the configuration for generating the CSV file. Specifically:
   * it has a URL to a Youtube RSS feed for our channel.
+  * it has the column names the CSV file should have.
   * it has some some default metadata values for each videos
   * it also has some specific metadata values for each video (identified by title)
 * It has an action that then generates and commits the `youtube.csv` file on each commit.
